@@ -11,12 +11,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Heading from "@/components/ui/heading";
-import ImageUpload from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import UseOrigin from "@/hooks/use-origin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Billboard, Size } from "@prisma/client";
+import { Color } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -25,49 +24,52 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as z from "zod";
 
-interface SizeFormProps {
-  inititalData: Size | null;
+interface ColorFormProps {
+  inititalData: Color | null;
 }
 const formSchema = z.object({
   name: z.string().min(1),
   value: z.string().min(1),
 });
 
-type SizeFormValue = z.infer<typeof formSchema>;
+type ColorFormValue = z.infer<typeof formSchema>;
 
-const SizeForm: React.FC<SizeFormProps> = ({ inititalData }) => {
+const ColorForm: React.FC<ColorFormProps> = ({ inititalData }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const params = useParams();
   const router = useRouter();
   const origin = UseOrigin();
 
-  const title = inititalData ? "Edit size" : "Create size";
-  const description = inititalData ? "Edit your size" : "Add a new size";
-  const toastMessage = inititalData ? "Size updated." : "Size created.";
+  const title = inititalData ? "Edit color" : "Create color";
+  const description = inititalData ? "Edit your color" : "Add a new color";
+  const toastMessage = inititalData ? "Color updated." : "Color created.";
   const action = inititalData ? "Save changes" : "Create";
 
-  const form = useForm<SizeFormValue>({
+  const form = useForm<ColorFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues: inititalData || { name: "", value: "" },
   });
 
-  const onSubmit = async (data: SizeFormValue) => {
+  const onSubmit = async (data: ColorFormValue) => {
     console.log(data);
     try {
       setLoading(true);
       if (inititalData) {
         const response = await axios.patch(
-          `/api/${params.storeId}/sizes/${params.sizeId}`,
+          `/api/${params.storeId}/colors/${params.colorId}`,
           data
         );
         console.log(response);
       } else {
-        const response = await axios.post(`/api/${params.storeId}/sizes`, data);
+        const response = await axios.post(
+          `/api/${params.storeId}/colors`,
+          data
+        );
         console.log(response);
       }
       router.refresh();
-      router.push(`/${params.storeId}/sizes`);
+      router.push(`/${params.storeId}/colors`);
       toast.success(toastMessage);
     } catch (error) {
       console.log(error);
@@ -81,15 +83,15 @@ const SizeForm: React.FC<SizeFormProps> = ({ inititalData }) => {
     try {
       setLoading(true);
       const response = await axios.delete(
-        `/api/${params.storeId}/sizes/${params.sizeId}`
+        `/api/${params.storeId}/colors/${params.colorId}`
       );
       console.log(response);
       router.refresh();
-      router.push(`/${params.storeId}/sizes`);
-      toast.success("Size deleted");
+      router.push(`/${params.storeId}/colors`);
+      toast.success("Color deleted");
     } catch (error) {
       console.log(error);
-      toast.error("Make sure you removed all products using this size");
+      toast.error("Make sure you removed all products using this color");
     } finally {
       setLoading(false);
       setOpen(false);
@@ -172,4 +174,4 @@ const SizeForm: React.FC<SizeFormProps> = ({ inititalData }) => {
   );
 };
 
-export default SizeForm;
+export default ColorForm;
