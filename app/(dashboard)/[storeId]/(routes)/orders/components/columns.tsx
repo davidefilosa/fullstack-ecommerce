@@ -34,7 +34,7 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Phone",
   },
   {
-    accessorKey: "addrress",
+    accessorKey: "address",
     header: "Address",
   },
 ];
