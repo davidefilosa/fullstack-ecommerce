@@ -3,6 +3,7 @@ import React from "react";
 import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "@/providers/theme-provider";
 
 export default async function DashboardLayout({
   children,

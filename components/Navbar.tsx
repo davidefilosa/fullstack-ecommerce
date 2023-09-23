@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import MainNav from "./main-nav";
 import StoreSwitcher from "./store-switcher";
+import ThemeSwitcher from "./theme-switcher";
 
 const Navbar = async () => {
   const { userId } = auth();
@@ -18,6 +19,8 @@ const Navbar = async () => {
         <StoreSwitcher items={stores} />
         <MainNav />
         <div className="ml-auto flex items-center space-x-4">
+          <ThemeSwitcher />
+
           <UserButton afterSignOutUrl="/" />
         </div>
       </div>
