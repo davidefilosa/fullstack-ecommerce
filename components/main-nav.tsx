@@ -53,7 +53,10 @@ const MainNav = ({
   ];
   return (
     <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6 px-4", className)}
+      className={cn(
+        "flex items-center space-x-4 lg:space-x-6 px-4 overflow-x-auto",
+        className
+      )}
     >
       {routes.map((route) => {
         return (
